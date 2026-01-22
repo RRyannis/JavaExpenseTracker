@@ -140,6 +140,12 @@ public class ExpenseTrackerGUI  extends JFrame{
     }
 
     public static void main(String[] args) {
+        try {
+            // Set the modern Dark theme
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize FlatLaf");
+        }
         SwingUtilities.invokeLater(ExpenseTrackerGUI::new);
     }
 
