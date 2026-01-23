@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.*;
 import java.util.List;
-
+//tba profiles and sql
 public class ExpenseTrackerGUI  extends JFrame{
     private JTextField txtAmount;
     private JTextField txtDescription;
