@@ -1,23 +1,26 @@
 package variousProjects.expenseTracker;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class Expense implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private double amount;
+    private BigDecimal amount;
     private String description;
+    private LocalDate date;
 
-    public Expense( double amount, String description){
+    public Expense( BigDecimal amount, String description){
         this.amount = amount;
         this.description = description;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

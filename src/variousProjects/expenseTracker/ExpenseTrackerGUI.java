@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.List;
 //tba profiles and sql
 public class ExpenseTrackerGUI  extends JFrame{
@@ -79,7 +80,7 @@ public class ExpenseTrackerGUI  extends JFrame{
             return;
         }
         try {
-            double amount = Double.parseDouble(amountStr);
+            BigDecimal amount = new BigDecimal(amountStr);
             expenseManager.addExpense(new Expense(amount, description));
             refreshTable();
             txtAmount.setText("");
@@ -106,7 +107,7 @@ public class ExpenseTrackerGUI  extends JFrame{
             return;
         }
         try {
-            double amount = Double.parseDouble(amountStr);
+            BigDecimal amount = new BigDecimal(amountStr);
             expenseManager.updateExpense(selectedRow, new Expense(amount, description));
             refreshTable();
             txtAmount.setText("");
@@ -127,7 +128,7 @@ public class ExpenseTrackerGUI  extends JFrame{
     }
 
     private void showSummary() {
-        double totalExpenses = expenseManager.getTotalExpenses();
+        BigDecimal totalExpenses = expenseManager.getTotalExpenses();
         JOptionPane.showMessageDialog(this, "Total Expenses: " + totalExpenses, "Summary", JOptionPane.INFORMATION_MESSAGE);
     }
 

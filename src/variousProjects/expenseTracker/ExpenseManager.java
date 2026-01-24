@@ -1,6 +1,7 @@
 package variousProjects.expenseTracker;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +28,11 @@ public class ExpenseManager {
     public List<Expense>  getExpenses(){
         return new ArrayList<>(expenses);
     }
-    public double getTotalExpenses(){
+    public BigDecimal getTotalExpenses(){
         //Note: refactor into big decimal later
-        double total = 0;
+        BigDecimal total = BigDecimal.ZERO;
         for (Expense expense: expenses){
-            total += expense.getAmount();
+            total = total.add(expense.getAmount());
         }
         return total;
     }
