@@ -5,11 +5,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 //tba profiles and sql
 public class ExpenseTrackerGUI  extends JFrame{
     private JTextField txtAmount;
     private JTextField txtDescription;
+    private JTextField txtDate;
     private DefaultTableModel tableModel;
     private JTable expenseTable;
     private ExpenseManager expenseManager;
@@ -32,6 +34,10 @@ public class ExpenseTrackerGUI  extends JFrame{
         txtDescription = new JTextField(15);
         inputPanel.add(txtDescription);
 
+        inputPanel.add(new JLabel("Date:"));
+        txtDate = new JTextField(15);
+        inputPanel.add(txtDate);
+
         JButton btnAdd = new JButton("Add");
         JButton btnEdit = new JButton("Edit");
         JButton btnDelete = new JButton("Delete");
@@ -42,7 +48,7 @@ public class ExpenseTrackerGUI  extends JFrame{
         inputPanel.add(btnDelete);
         inputPanel.add(btnSummary);
 
-        tableModel = new DefaultTableModel(new Object[]{"Amount", "Description"}, 0) {
+        tableModel = new DefaultTableModel(new Object[]{"Amount", "Description", "Date"}, 0) {
             public boolean isCellEditable(int row, int column) { return false; }
         };
         expenseTable = new JTable(tableModel);
@@ -73,18 +79,22 @@ public class ExpenseTrackerGUI  extends JFrame{
     private void addExpense() {
         String amountStr = txtAmount.getText().trim();
         String description = txtDescription.getText().trim();
+        String dateStr = txtDate.getText().trim();
 
-        if (amountStr.isEmpty() || description.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please provide amount and description.",
+
+        if (amountStr.isEmpty() || description.isEmpty() || dateStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please provide amount, description and date.",
                     "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
             BigDecimal amount = new BigDecimal(amountStr);
-            expenseManager.addExpense(new Expense(amount, description));
+            LocalDate date = LocalDate.parse(dateStr);
+            expenseManager.addExpense(new Expense(amount, description, date));
             refreshTable();
             txtAmount.setText("");
             txtDescription.setText("");
+            txtDate.setText("");
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Invalid amount.",
                     "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -100,6 +110,7 @@ public class ExpenseTrackerGUI  extends JFrame{
         }
         String amountStr = txtAmount.getText().trim();
         String description = txtDescription.getText().trim();
+        String dateStr = txtDate.getText().trim();
 
         if (amountStr.isEmpty() || description.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please provide amount and description.",
@@ -108,10 +119,12 @@ public class ExpenseTrackerGUI  extends JFrame{
         }
         try {
             BigDecimal amount = new BigDecimal(amountStr);
-            expenseManager.updateExpense(selectedRow, new Expense(amount, description));
+            LocalDate date = LocalDate.parse(dateStr);
+            expenseManager.updateExpense(selectedRow, new Expense(amount, description, date));
             refreshTable();
             txtAmount.setText("");
             txtDescription.setText("");
+            txtDate.setText("");
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Invalid amount.", "Input Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -136,7 +149,7 @@ public class ExpenseTrackerGUI  extends JFrame{
         tableModel.setRowCount(0);
         List<Expense> expenses = expenseManager.getExpenses();
         for (Expense expense : expenses) {
-            tableModel.addRow(new Object[]{expense.getAmount(), expense.getDescription()});
+            tableModel.addRow(new Object[]{expense.getAmount(), expense.getDescription(), expense.getDate()});
         }
     }
 

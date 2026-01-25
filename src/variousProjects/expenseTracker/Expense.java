@@ -1,8 +1,11 @@
 package variousProjects.expenseTracker;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import static javax.swing.JOptionPane.*;
 
 public class Expense implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -11,9 +14,10 @@ public class Expense implements Serializable {
     private String description;
     private LocalDate date;
 
-    public Expense( BigDecimal amount, String description){
+    public Expense( BigDecimal amount, String description, LocalDate date){
         this.amount = amount;
         this.description = description;
+        this.date = date;
     }
 
     public BigDecimal getAmount() {
@@ -21,6 +25,11 @@ public class Expense implements Serializable {
     }
 
     public void setAmount(BigDecimal amount) {
+        if (amount != null || amount.compareTo(BigDecimal.ZERO) <= 0){
+            System.out.println("Invalid entry");
+            //showMessageDialog(this, "Amount must be positive!");
+            return;
+        }
         this.amount = amount;
     }
 
@@ -30,5 +39,13 @@ public class Expense implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }
