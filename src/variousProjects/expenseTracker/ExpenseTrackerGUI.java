@@ -7,7 +7,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-//tba profiles and sql
+//tba profiles and sqlite
 public class ExpenseTrackerGUI  extends JFrame{
     private JTextField txtAmount;
     private JTextField txtDescription;
