@@ -94,7 +94,7 @@ public class ExpenseTrackerGUI  extends JFrame{
             refreshTable();
             txtAmount.setText("");
             txtDescription.setText("");
-            txtDate.setText("");
+            txtDate.setText(LocalDate.now().toString());
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Invalid amount.",
                     "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -124,10 +124,13 @@ public class ExpenseTrackerGUI  extends JFrame{
             refreshTable();
             txtAmount.setText("");
             txtDescription.setText("");
-            txtDate.setText("");
+            txtDate.setText(LocalDate.now().toString());
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Invalid amount.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        } catch (java.time.format.DateTimeParseException ex){
+            JOptionPane.showMessageDialog(this, "Invalid date. Please use YYYY-MM-DD.", "Input Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
     private void deleteExpense() {
