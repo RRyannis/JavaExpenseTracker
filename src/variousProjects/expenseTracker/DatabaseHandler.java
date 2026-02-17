@@ -21,6 +21,24 @@ public class DatabaseHandler {
             System.out.println("❌ Database init error: " + e.getMessage());
         }
     }
+    public static void addExpenseToDatabase(Expense expense) {
+        String sql = "INSERT INTO expenses(amount, description, date) VALUES(?,?,?)";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Use PreparedStatement to prevent "SQL Injection"
+            pstmt.setBigDecimal(1, expense.getAmount());
+            pstmt.setString(2, expense.getDescription());
+            pstmt.setString(3, expense.getDate().toString()); // Stores as YYYY-MM-DD
+
+            pstmt.executeUpdate();
+            System.out.println("✅ Expense saved to database!");
+
+        } catch (SQLException e) {
+            System.out.println("❌ Insert error: " + e.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
         initializeDatabase();

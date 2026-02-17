@@ -12,7 +12,9 @@ public class ExpenseManager {
         expenses = new ArrayList<>();
     }
     public void addExpense(Expense expense){
+
         expenses.add(expense);
+        DatabaseHandler.addExpenseToDatabase(expense);
     }
     public void removeExpense(int index){
         if (index >= 0 && index < expenses.size()){
