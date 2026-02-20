@@ -2,12 +2,13 @@ package variousProjects.expenseTracker;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-//tba profiles and sqlite
+
 public class ExpenseTrackerGUI  extends JFrame{
     private JTextField txtAmount;
     private JTextField txtDescription;
@@ -67,6 +68,13 @@ public class ExpenseTrackerGUI  extends JFrame{
             expenseManager.saveToFile("expenses.ser"); // Save after edit
         });
         btnDelete.addActionListener(e -> {
+            int response = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to delete this expense?",
+                    "Confirm Deletion",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
             deleteExpense();
             expenseManager.saveToFile("expenses.ser"); // Save after delete
         });

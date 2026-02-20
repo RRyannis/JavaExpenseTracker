@@ -1,5 +1,5 @@
 package variousProjects.expenseTracker;
-
+// TODO: Integrate with DatabaseHandler.deleteExpense()
 import java.sql.* ;
 public class DatabaseHandler {
     private static final String URL = "jdbc:sqlite:expenses.db";
