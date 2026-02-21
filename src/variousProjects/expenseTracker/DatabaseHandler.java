@@ -21,13 +21,27 @@ public class DatabaseHandler {
             System.out.println("❌ Database init error: " + e.getMessage());
         }
     }
+    public static void getAllExpenses(){
+        String sql = "SELECT* FROM expenses";
+        try(Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            int rowsFetched = pstmt.executeUpdate();
+            if (rowsFetched > 0){
+                System.out.println("Rows fetched.");
+            } else {
+                System.out.println("No rows fetched.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Fetching error.");
+        }
+    }
     public static void addExpenseToDatabase(Expense expense) {
         String sql = "INSERT INTO expenses(amount, description, date) VALUES(?,?,?)";
 
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            // Use PreparedStatement to prevent "SQL Injection"
+            //PreparedStatement to prevent "SQL Injection"
             pstmt.setBigDecimal(1, expense.getAmount());
             pstmt.setString(2, expense.getDescription());
             pstmt.setString(3, expense.getDate().toString()); // Stores as YYYY-MM-DD
@@ -37,6 +51,22 @@ public class DatabaseHandler {
 
         } catch (SQLException e) {
             System.out.println("❌ Insert error: " + e.getMessage());
+        }
+    }
+    public static void deleteExpenseFromDatabase(int id) {
+        String sql = "DELETE FROM expenses WHERE id = ?";
+
+        try(Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1,id);
+            int rowsDeleted = pstmt.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("✅ Expense deleted!");
+            } else {
+                System.out.println("No rows deleted.");
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Deletion error: " + e.getMessage());
         }
     }
 
