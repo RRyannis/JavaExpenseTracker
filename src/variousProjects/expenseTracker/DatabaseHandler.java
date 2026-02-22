@@ -1,6 +1,10 @@
 package variousProjects.expenseTracker;
 // TODO: Integrate with DatabaseHandler.deleteExpense()
+import java.math.BigDecimal;
 import java.sql.* ;
+import java.util.ArrayList;
+import java.time.LocalDate;
+
 public class DatabaseHandler {
     private static final String URL = "jdbc:sqlite:expenses.db";
 
@@ -21,18 +25,26 @@ public class DatabaseHandler {
             System.out.println("❌ Database init error: " + e.getMessage());
         }
     }
-    public static void getAllExpenses(){
+    public static ArrayList<Expense> getAllExpenses(){
         String sql = "SELECT* FROM expenses";
         try(Connection conn = DriverManager.getConnection(URL);
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-            int rowsFetched = pstmt.executeUpdate();
-            if (rowsFetched > 0){
-                System.out.println("Rows fetched.");
-            } else {
-                System.out.println("No rows fetched.");
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()){
+
+            ArrayList<Expense> list = new ArrayList<>();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                BigDecimal amount = BigDecimal.valueOf(rs.getDouble("amount"));
+                String description = rs.getString("description");
+                LocalDate date = Date.valueOf(rs.getString("date")).toLocalDate();
+                Expense expense = new Expense(id,amount, description, date);
+                list.add(expense);
             }
+            return list;
         } catch (SQLException e) {
             System.out.println("Fetching error.");
+            return null;
         }
     }
     public static void addExpenseToDatabase(Expense expense) {
@@ -71,6 +83,7 @@ public class DatabaseHandler {
     }
 
     public static void main(String[] args) {
-        initializeDatabase();
+        //initializeDatabase();
+        getAllExpenses();
     }
 }

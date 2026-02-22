@@ -15,13 +15,16 @@ public class Expense implements Serializable {
     private String description;
     private LocalDate date;
 
-    public Expense(int id, BigDecimal amount, String description, LocalDate date ){
-        this.id = id;
+    public Expense(){}
+
+    public Expense( BigDecimal amount, String description, LocalDate date){
         this.amount = amount;
         this.description = description;
         this.date = date;
     }
-    public Expense( BigDecimal amount, String description, LocalDate date){
+
+    public Expense(int id, BigDecimal amount, String description, LocalDate date ){
+        this.id = id;
         this.amount = amount;
         this.description = description;
         this.date = date;
