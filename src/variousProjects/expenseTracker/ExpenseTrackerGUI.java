@@ -19,7 +19,7 @@ public class ExpenseTrackerGUI  extends JFrame{
 
     public ExpenseTrackerGUI() {
         expenseManager = new ExpenseManager();
-        expenseManager.loadFromFile("expenses.ser"); // Load saved expenses if exists
+        expenseManager.loadAllExpenses(); // Load saved expenses if exists
 
         setTitle("Expense Tracker");
         setSize(600, 400);
@@ -61,11 +61,13 @@ public class ExpenseTrackerGUI  extends JFrame{
 
         btnAdd.addActionListener(e -> {
             addExpense();
-            expenseManager.saveToFile("expenses.ser"); // Save after add
+            expenseManager.loadAllExpenses();
+            refreshTable();
         });
         btnEdit.addActionListener(e -> {
             editExpense();
-            expenseManager.saveToFile("expenses.ser"); // Save after edit
+            expenseManager.loadAllExpenses();
+            refreshTable();
         });
         btnDelete.addActionListener(e -> {
             int response = JOptionPane.showConfirmDialog(
@@ -76,7 +78,8 @@ public class ExpenseTrackerGUI  extends JFrame{
                     JOptionPane.WARNING_MESSAGE
             );
             deleteExpense();
-            expenseManager.saveToFile("expenses.ser"); // Save after delete
+            expenseManager.loadAllExpenses();
+            refreshTable();
         });
         btnSummary.addActionListener(e -> showSummary());
 
@@ -147,8 +150,31 @@ public class ExpenseTrackerGUI  extends JFrame{
             JOptionPane.showMessageDialog(this, "Select a row to delete.", "Delete Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        Expense expenseToDelete = expenseManager.getExpenses().get(selectedRow);
+        DatabaseHandler.deleteExpenseFromDatabase(expenseToDelete.getId());
         expenseManager.removeExpense(selectedRow);
         refreshTable();
+        JOptionPane.showMessageDialog(this, "✅ Expense deleted from database!");
+        System.out.println("ID to delete: " + expenseToDelete.getId());
+//        int selectedRow = expenseTable.getSelectedRow();
+//        if (selectedRow != -1) {
+//            // Get the ID directly from the TABLE model instead of the ArrayList
+//            // This assumes ID is a hidden column or column 0.
+//            // If you don't have ID in the table, let's stick to the list check:
+//
+//            Expense expenseToDelete = expenseManager.getExpenses().get(selectedRow);
+//
+//            System.out.println("--- DELETION ATTEMPT ---");
+//            System.out.println("Table Row Index: " + selectedRow);
+//            System.out.println("Object ID from List: " + expenseToDelete.getId());
+//            System.out.println("Object Desc from List: " + expenseToDelete.getDescription());
+//
+//            DatabaseHandler.deleteExpenseFromDatabase(expenseToDelete.getId());
+//
+//            // Check the database again right after
+//            expenseManager.removeExpense(selectedRow);
+//            refreshTable();
+        //not deleting from db, to fix later
     }
 
     private void showSummary() {

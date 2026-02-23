@@ -57,4 +57,7 @@ public class ExpenseManager {
             expenses = new ArrayList<>();
         }
     }
+    public void loadAllExpenses(){
+        this.expenses = DatabaseHandler.getAllExpenses();
+    }
 }
