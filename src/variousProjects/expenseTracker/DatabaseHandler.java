@@ -81,6 +81,27 @@ public class DatabaseHandler {
             System.out.println("❌ Deletion error: " + e.getMessage());
         }
     }
+    public static void editExpenseInDatabase(Expense expense){
+        String sql = "UPDATE expenses SET amount = ?, description = ?, date = ?,  WHERE id = ?;";
+
+        try(Connection conn = DriverManager.getConnection(URL);
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setBigDecimal(1, expense.getAmount());
+            pstmt.setString(2, expense.getDescription());
+            pstmt.setString(3, expense.getDate().toString());
+            pstmt.setInt(4, expense.getId());
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated > 1) {
+                System.out.println("Row updated successfully");
+            } else {
+                System.out.println("Update unsuccessful.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Update error: " + e.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
         //initializeDatabase();

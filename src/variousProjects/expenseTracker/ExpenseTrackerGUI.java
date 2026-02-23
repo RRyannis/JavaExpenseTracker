@@ -119,9 +119,12 @@ public class ExpenseTrackerGUI  extends JFrame{
             JOptionPane.showMessageDialog(this, "Select a row to edit.", "Edit Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        Expense oldExpense = expenseManager.getExpenses().get(selectedRow);
+        int id = oldExpense.getId();
         String amountStr = txtAmount.getText().trim();
         String description = txtDescription.getText().trim();
         String dateStr = txtDate.getText().trim();
+
 
         if (amountStr.isEmpty() || description.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please provide amount and description.",
@@ -131,7 +134,10 @@ public class ExpenseTrackerGUI  extends JFrame{
         try {
             BigDecimal amount = new BigDecimal(amountStr);
             LocalDate date = LocalDate.parse(dateStr);
-            expenseManager.updateExpense(selectedRow, new Expense(amount, description, date));
+            Expense updatedExpense = new Expense(amount, description, date);
+            updatedExpense.setId(id);
+            DatabaseHandler.editExpenseInDatabase(updatedExpense);
+            expenseManager.updateExpense(selectedRow, id,updatedExpense);
             refreshTable();
             txtAmount.setText("");
             txtDescription.setText("");
