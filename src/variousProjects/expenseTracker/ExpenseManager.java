@@ -21,9 +21,9 @@ public class ExpenseManager {
             expenses.remove(index);
         }
     }
-    public void updateExpense(int index,int id, Expense expense){
+    public void updateExpense(int index, Expense expense){
         if (index >= 0 && index < expenses.size()){
-            expense.setId(id);
+//            expense.setId(id);
             expenses.set(index, expense);
         }
     }

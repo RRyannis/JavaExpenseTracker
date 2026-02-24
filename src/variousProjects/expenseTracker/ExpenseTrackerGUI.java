@@ -137,7 +137,7 @@ public class ExpenseTrackerGUI  extends JFrame{
             Expense updatedExpense = new Expense(amount, description, date);
             updatedExpense.setId(id);
             DatabaseHandler.editExpenseInDatabase(updatedExpense);
-            expenseManager.updateExpense(selectedRow, id,updatedExpense);
+            expenseManager.updateExpense(selectedRow,updatedExpense);
             refreshTable();
             txtAmount.setText("");
             txtDescription.setText("");

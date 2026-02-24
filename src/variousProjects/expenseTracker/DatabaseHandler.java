@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.sql.* ;
 import java.util.ArrayList;
 import java.time.LocalDate;
-
+//crud operations done for the most part, to add a sum function to return the sum of the amount column and also
+// a search function to search expenses based on description. Perhaps some sort of filter?
 public class DatabaseHandler {
     private static final String URL = "jdbc:sqlite:expenses.db";
 
@@ -82,7 +83,7 @@ public class DatabaseHandler {
         }
     }
     public static void editExpenseInDatabase(Expense expense){
-        String sql = "UPDATE expenses SET amount = ?, description = ?, date = ?,  WHERE id = ?;";
+        String sql = "UPDATE expenses SET amount = ?, description = ?, date = ?  WHERE id = ?;";
 
         try(Connection conn = DriverManager.getConnection(URL);
             PreparedStatement pstmt = conn.prepareStatement(sql)){
