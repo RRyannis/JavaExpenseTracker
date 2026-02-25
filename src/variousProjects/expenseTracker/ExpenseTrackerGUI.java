@@ -3,6 +3,7 @@ package variousProjects.expenseTracker;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
@@ -184,7 +185,8 @@ public class ExpenseTrackerGUI  extends JFrame{
     }
 
     private void showSummary() {
-        BigDecimal totalExpenses = expenseManager.getTotalExpenses();
+//        BigDecimal totalExpenses = expenseManager.getTotalExpenses();
+        BigDecimal totalExpenses = DatabaseHandler.getExpenseSum();
         JOptionPane.showMessageDialog(this, "Total Expenses: " + totalExpenses, "Summary", JOptionPane.INFORMATION_MESSAGE);
     }
 

@@ -103,6 +103,21 @@ public class DatabaseHandler {
             System.out.println("❌ Update error: " + e.getMessage());
         }
     }
+    public static BigDecimal getExpenseSum(){
+        String sql = "SELECT SUM(amount) AS total FROM expenses";
+        try(Connection conn = DriverManager.getConnection(URL);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+            if (rs.next()) {
+                BigDecimal result = rs.getBigDecimal("total");
+                return (result != null) ? result : BigDecimal.ZERO;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Summary Query Error: " + e.getMessage());
+        }
+        return BigDecimal.ZERO;
+    }
 
     public static void main(String[] args) {
         //initializeDatabase();
