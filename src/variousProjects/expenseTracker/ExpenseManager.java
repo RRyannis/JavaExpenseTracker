@@ -27,9 +27,11 @@ public class ExpenseManager {
             expenses.set(index, expense);
         }
     }
-
     public List<Expense>  getExpenses(){
         return new ArrayList<>(expenses);
+    }
+    public void setExpenses(ArrayList<Expense> filteredList) {
+        this.expenses = filteredList;
     }
     public BigDecimal getTotalExpenses(){
         //Note: refactor into big decimal later

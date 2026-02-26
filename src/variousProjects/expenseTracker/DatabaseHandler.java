@@ -118,6 +118,29 @@ public class DatabaseHandler {
         }
         return BigDecimal.ZERO;
     }
+    public static ArrayList<Expense> searchExpenses(String searchTerm) {
+        ArrayList<Expense> list = new ArrayList<>();
+        String sql = "SELECT * FROM expenses WHERE description LIKE ?";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Expense(
+                        rs.getInt("id"),
+                        rs.getBigDecimal("amount"),
+                        rs.getString("description"),
+                        LocalDate.parse(rs.getString("date"))
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Search error: " + e.getMessage());
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         //initializeDatabase();

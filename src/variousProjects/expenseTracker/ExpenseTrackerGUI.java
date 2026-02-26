@@ -8,12 +8,14 @@ import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseTrackerGUI  extends JFrame{
     private JTextField txtAmount;
     private JTextField txtDescription;
     private JTextField txtDate;
+    private JTextField txtSearch;
     private DefaultTableModel tableModel;
     private JTable expenseTable;
     private ExpenseManager expenseManager;
@@ -40,15 +42,23 @@ public class ExpenseTrackerGUI  extends JFrame{
         txtDate = new JTextField(15);
         inputPanel.add(txtDate);
 
+        inputPanel.add(new JLabel("Search:"));
+        txtSearch = new JTextField(10);
+        inputPanel.add(txtSearch);
+
         JButton btnAdd = new JButton("Add");
         JButton btnEdit = new JButton("Edit");
         JButton btnDelete = new JButton("Delete");
         JButton btnSummary = new JButton("Summary");
+        JButton btnSearch = new JButton("Search");
+        JButton btnClear = new JButton("clear");
 
         inputPanel.add(btnAdd);
         inputPanel.add(btnEdit);
         inputPanel.add(btnDelete);
         inputPanel.add(btnSummary);
+        inputPanel.add(btnSearch);
+        inputPanel.add(btnClear);
 
         tableModel = new DefaultTableModel(new Object[]{"Amount", "Description", "Date"}, 0) {
             public boolean isCellEditable(int row, int column) { return false; }
@@ -83,6 +93,13 @@ public class ExpenseTrackerGUI  extends JFrame{
             refreshTable();
         });
         btnSummary.addActionListener(e -> showSummary());
+        btnSearch.addActionListener(e -> searchItem());
+        btnClear.addActionListener(e -> {
+            txtSearch.setText("");
+            expenseManager.loadAllExpenses();
+            refreshTable();
+        });
+
 
         refreshTable();
         setVisible(true);
@@ -196,6 +213,17 @@ public class ExpenseTrackerGUI  extends JFrame{
         for (Expense expense : expenses) {
             tableModel.addRow(new Object[]{expense.getAmount(), expense.getDescription(), expense.getDate()});
         }
+    }
+    private void searchItem(){
+        String term = txtSearch.getText().trim();
+        if (term.isEmpty()){
+            expenseManager.loadAllExpenses();
+        } else {
+            ArrayList<Expense> results = DatabaseHandler.searchExpenses(term);
+            expenseManager.setExpenses(results);
+            //updateSummaryLabel();
+        }
+        refreshTable();
     }
 
     public static void main(String[] args) {
