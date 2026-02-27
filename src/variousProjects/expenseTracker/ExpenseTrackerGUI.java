@@ -40,6 +40,7 @@ public class ExpenseTrackerGUI  extends JFrame{
 
         inputPanel.add(new JLabel("Date:"));
         txtDate = new JTextField(15);
+        txtDate.setText(LocalDate.now().toString());
         inputPanel.add(txtDate);
 
         inputPanel.add(new JLabel("Search:"));
