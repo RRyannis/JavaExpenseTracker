@@ -128,6 +128,8 @@ public class ExpenseTrackerGUI  extends JFrame{
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Invalid amount.",
                     "Input Error", JOptionPane.ERROR_MESSAGE);
+            txtAmount.setText("");
+            txtAmount.requestFocus();
         }
     }
 
