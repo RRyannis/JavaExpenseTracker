@@ -93,7 +93,7 @@ public class DatabaseHandler {
             pstmt.setString(3, expense.getDate().toString());
             pstmt.setInt(4, expense.getId());
             int rowsUpdated = pstmt.executeUpdate();
-            if (rowsUpdated > 1) {
+            if (rowsUpdated > 0) {
                 System.out.println("Row updated successfully");
             } else {
                 System.out.println("Update unsuccessful.");
