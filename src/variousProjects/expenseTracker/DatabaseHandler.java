@@ -45,7 +45,7 @@ public class DatabaseHandler {
             return list;
         } catch (SQLException e) {
             System.out.println("Fetching error.");
-            return null;
+            return new ArrayList<>();
         }
     }
     public static void addExpenseToDatabase(Expense expense) {
