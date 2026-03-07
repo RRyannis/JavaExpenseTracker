@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class DatabaseHandler {
     private static final String URL = "jdbc:sqlite:expenses.db";
 
+    // Call this method on application startup to ensure the database and table exist
     public static void initializeDatabase(){
         String sql = "CREATE TABLE IF NOT EXISTS expenses ("
                    + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
